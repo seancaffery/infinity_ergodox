@@ -1,0 +1,8 @@
+.dep
+build
+
+#ignore eclipse projects
+/.project
+/.cproject
+/.settings
+
