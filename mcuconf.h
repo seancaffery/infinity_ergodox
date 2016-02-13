@@ -59,4 +59,9 @@
  * for Teensy 3.x */
 #define KINETIS_USB_USB0_IRQ_PRIORITY       2
 
+/*
+ * SPI driver system settings.
+ */
+#define KINETIS_SPI_USE_SPI0                TRUE
+
 #endif /* _MCUCONF_H_ */
