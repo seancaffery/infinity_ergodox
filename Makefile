@@ -87,6 +87,7 @@ OPT_DEFS = -DCORTEX_VTOR_INIT=0x00002000
 #NKRO_ENABLE = yes	    # USB Nkey Rollover
 
 include $(VISUALIZER_DIR)/visualizer.mk
+include drivers/gdisp/st7565ergodox/driver.mk
 include $(TMK_DIR)/tool/chibios/common.mk
 include $(TMK_DIR)/tool/chibios/chibios.mk
 
