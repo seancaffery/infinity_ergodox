@@ -86,15 +86,28 @@ OPT_DEFS = -DCORTEX_VTOR_INIT=0x00002000
 #COMMAND_ENABLE = yes    # Commands for debug and configuration
 #SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
 #NKRO_ENABLE = yes	    # USB Nkey Rollover
-
+VISUALIZER_ENABLE = yes # Enable to customize the LCD and LEDS
+ifdef VISUALIZER_ENABLE
 LCD_ENABLE = yes
 LCD_BACKLIGHT_ENABLE = yes
+else
+# These options are incompatible with the visualizer
+STATUS_LED_ENABLE = yes # Enable CAPS LOCK display for the LCD screen
+endif
+
 
 ifdef LCD_ENABLE
 include drivers/gdisp/st7565ergodox/driver.mk
 endif
 
+ifdef STATUS_LED_ENABLE
+OPT_DEFS += -DSTATUS_LED_ENABLE
+endif
+
+ifdef VISUALIZER_ENABLE
 include $(VISUALIZER_DIR)/visualizer.mk
+endif
+
 include $(TMK_DIR)/tool/chibios/common.mk
 include $(TMK_DIR)/tool/chibios/chibios.mk
 
