@@ -12,7 +12,8 @@ TARGET_DIR = .
 # project specific files
 SRC =	matrix.c \
 	keymap_common.c \
-	led.c
+	led.c \
+	callbacks.c 
 
 ifdef KEYMAP
     SRC := keymap_$(KEYMAP).c $(SRC)
