@@ -86,8 +86,14 @@ OPT_DEFS = -DCORTEX_VTOR_INIT=0x00002000
 #SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
 #NKRO_ENABLE = yes	    # USB Nkey Rollover
 
-include $(VISUALIZER_DIR)/visualizer.mk
+LCD_ENABLE = yes
+LCD_BACKLIGHT_ENABLE = yes
+
+ifdef LCD_ENABLE
 include drivers/gdisp/st7565ergodox/driver.mk
+endif
+
+include $(VISUALIZER_DIR)/visualizer.mk
 include $(TMK_DIR)/tool/chibios/common.mk
 include $(TMK_DIR)/tool/chibios/chibios.mk
 
