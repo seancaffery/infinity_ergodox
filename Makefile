@@ -4,6 +4,8 @@ PROJECT = ch
 # Directory common source files exist
 TMK_DIR = ./tmk_core
 
+VISUALIZER_DIR = ./tmk_visualizer
+
 # Directory keyboard dependent files exist
 TARGET_DIR = .
 
@@ -84,6 +86,7 @@ OPT_DEFS = -DCORTEX_VTOR_INIT=0x00002000
 #SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
 #NKRO_ENABLE = yes	    # USB Nkey Rollover
 
+include $(VISUALIZER_DIR)/visualizer.mk
 include $(TMK_DIR)/tool/chibios/common.mk
 include $(TMK_DIR)/tool/chibios/chibios.mk
 
