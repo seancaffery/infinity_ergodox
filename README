@@ -22,3 +22,7 @@ $ make
 Upload
 ------
 $ make program
+
+LCD Visualization
+-----------------
+In order to customize the LCD visualization, which includes both the backlight and the LCD screen display itself, you need to edit the visualizer_user.c file. The file is quite well commented, so just read through the comments, and start experimenting. At the very least you probably want to edit the layer names and colors, in the update_user_visualizer_state function.
