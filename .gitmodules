@@ -2,3 +2,6 @@
 	path = tmk_core
 	url = https://github.com/tmk/tmk_core.git
 	branch = chibios
+[submodule "visualizer/tmk_visualizer"]
+	path = tmk_visualizer
+	url = https://github.com/fredizzimo/tmk_visualizer.git
