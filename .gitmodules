@@ -5,3 +5,6 @@
 [submodule "visualizer/tmk_visualizer"]
 	path = tmk_visualizer
 	url = https://github.com/fredizzimo/tmk_visualizer.git
+[submodule "tmk_serial_link"]
+	path = tmk_serial_link
+	url = https://github.com/fredizzimo/tmk_serial_link

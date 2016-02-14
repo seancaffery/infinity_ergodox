@@ -5,6 +5,7 @@ PROJECT = ch
 TMK_DIR = ./tmk_core
 
 VISUALIZER_DIR = ./tmk_visualizer
+SERIAL_DIR = ./tmk_serial_link
 
 # Directory keyboard dependent files exist
 TARGET_DIR = .
@@ -108,8 +109,12 @@ ifdef VISUALIZER_ENABLE
 include $(VISUALIZER_DIR)/visualizer.mk
 endif
 
+include $(SERIAL_DIR)/serial_link.mk
+
 include $(TMK_DIR)/tool/chibios/common.mk
 include $(TMK_DIR)/tool/chibios/chibios.mk
+
+include $(SERIAL_DIR)/serial_link_tests.mk
 
 program: $(BUILDDIR)/$(PROJECT).bin
 	dfu-util -D $(BUILDDIR)/$(PROJECT).bin
