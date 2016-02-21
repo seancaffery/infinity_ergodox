@@ -19,9 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "action_layer.h"
 #include "visualizer.h"
 #include "host.h"
+#include "serial_link/system/system.h"
 
 void post_keyboard_init(void) {
     visualizer_init();
+    init_serial_link();
 }
 
 void post_keyboard_task() {
