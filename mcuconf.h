@@ -53,10 +53,6 @@
 #define KINETIS_SERIAL_USE_UART0            TRUE
 #define KINETIS_SERIAL_USE_UART1            TRUE
 
-// Workaround for bug in the flabbergast ChibiOS branch.
-// Seems like KINETIS_SERIAL1_IS_UARTLP was defined instead of this
-#define KINETIS_SERIAL1_IS_LPUART           FALSE
-
 /*
  * USB driver settings
  */
