@@ -10,6 +10,8 @@ SERIAL_DIR = ./tmk_serial_link
 # Directory keyboard dependent files exist
 TARGET_DIR = .
 
+CHIBIOS = chibios
+
 # project specific files
 SRC =	matrix.c \
 	keymap_common.c \

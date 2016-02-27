@@ -8,3 +8,6 @@
 [submodule "tmk_serial_link"]
 	path = tmk_serial_link
 	url = https://github.com/fredizzimo/tmk_serial_link
+[submodule "chibios"]
+	path = chibios
+	url = https://github.com/flabbergast/chibios.git
