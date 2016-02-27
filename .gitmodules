@@ -2,3 +2,6 @@
 	path = tmk_core
 	url = https://github.com/tmk/tmk_core.git
 	branch = chibios
+[submodule "chibios"]
+	path = chibios
+	url = https://github.com/flabbergast/chibios.git
