@@ -9,6 +9,8 @@ VISUALIZER_DIR = ./tmk_visualizer
 # Directory keyboard dependent files exist
 TARGET_DIR = .
 
+CHIBIOS = chibios
+
 # project specific files
 SRC =	matrix.c \
 	keymap_common.c \
