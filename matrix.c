@@ -19,7 +19,7 @@
  */
 /* matrix state(1:on, 0:off) */
 static matrix_row_t matrix[MATRIX_ROWS];
-static matrix_row_t matrix_debouncing[MATRIX_ROWS];
+static matrix_row_t matrix_debouncing[LOCAL_MATRIX_ROWS];
 static bool debouncing = false;
 static uint16_t debouncing_time = 0;
 
@@ -46,12 +46,12 @@ void matrix_init(void)
     palSetPadMode(GPIOD, 0,  PAL_MODE_OUTPUT_PUSHPULL);
 
     memset(matrix, 0, MATRIX_ROWS);
-    memset(matrix_debouncing, 0, MATRIX_ROWS);
+    memset(matrix_debouncing, 0, LOCAL_MATRIX_ROWS);
 }
 
 uint8_t matrix_scan(void)
 {
-    for (int row = 0; row < MATRIX_ROWS; row++) {
+    for (int row = 0; row < LOCAL_MATRIX_ROWS; row++) {
         matrix_row_t data = 0;
 
         // strobe row
@@ -94,7 +94,7 @@ uint8_t matrix_scan(void)
     }
 
     if (debouncing && timer_elapsed(debouncing_time) > DEBOUNCE) {
-        for (int row = 0; row < MATRIX_ROWS; row++) {
+        for (int row = 0; row < LOCAL_MATRIX_ROWS; row++) {
             matrix[row] = matrix_debouncing[row];
         }
         debouncing = false;
@@ -125,5 +125,11 @@ void matrix_print(void)
                 xprintf("0");
         }
         xprintf("\n");
+    }
+}
+
+void matrix_set_remote(matrix_row_t* rows, uint8_t index) {
+    for (int row = 0; row < LOCAL_MATRIX_ROWS; row++) {
+        matrix[row + LOCAL_MATRIX_ROWS*(index + 1)] = rows[row];
     }
 }

@@ -36,22 +36,37 @@ extern const uint16_t fn_actions[];
 
 /* Infinity prototype */
 #define KEYMAP( \
-    K80, K70, K60, K50, K40, K30, K20,  \
-    K81, K71, K61, K51, K41, K31, K21,  \
-    K82, K72, K62, K52, K42, K32,       \
-    K83, K73, K63, K53, K43, K33, K23,      K13, K03, \
-    K84, K74, K64, K54, K44,           K34, K24, K04, \
-                                                 K14  \
+    A80, A70, A60, A50, A40, A30, A20,  \
+    A81, A71, A61, A51, A41, A31, A21,  \
+    A82, A72, A62, A52, A42, A32,       \
+    A83, A73, A63, A53, A43, A33, A23,      A13, A03, \
+    A84, A74, A64, A54, A44,           A34, A24, A04, \
+                                                 A14, \
+    B80, B70, B60, B50, B40, B30, B20,  \
+    B81, B71, B61, B51, B41, B31, B21,  \
+    B82, B72, B62, B52, B42, B32,       \
+    B83, B73, B63, B53, B43, B33, B23,      B13, B03, \
+    B84, B74, B64, B54, B44,           B34, B24, B04, \
+                                                 B14 \
 ) { \
-    { KC_NO,    KC_NO,    KC_NO,    KC_##K03, KC_##K04 }, \
-    { KC_NO,    KC_NO,    KC_NO,    KC_##K13, KC_##K14 }, \
-    { KC_##K20, KC_##K21, KC_NO,    KC_##K23, KC_##K24 }, \
-    { KC_##K30, KC_##K31, KC_##K32, KC_##K33, KC_##K34 }, \
-    { KC_##K40, KC_##K41, KC_##K42, KC_##K43, KC_##K44 }, \
-    { KC_##K50, KC_##K51, KC_##K52, KC_##K53, KC_##K54 }, \
-    { KC_##K60, KC_##K61, KC_##K62, KC_##K63, KC_##K64 }, \
-    { KC_##K70, KC_##K71, KC_##K72, KC_##K73, KC_##K74 }, \
-    { KC_##K80, KC_##K81, KC_##K82, KC_##K83, KC_##K84 }  \
+    { KC_NO,    KC_NO,    KC_NO,    KC_##A03, KC_##A04 }, \
+    { KC_NO,    KC_NO,    KC_NO,    KC_##A13, KC_##A14 }, \
+    { KC_##A20, KC_##A21, KC_NO,    KC_##A23, KC_##A24 }, \
+    { KC_##A30, KC_##A31, KC_##A32, KC_##A33, KC_##A34 }, \
+    { KC_##A40, KC_##A41, KC_##A42, KC_##A43, KC_##A44 }, \
+    { KC_##A50, KC_##A51, KC_##A52, KC_##A53, KC_##A54 }, \
+    { KC_##A60, KC_##A61, KC_##A62, KC_##A63, KC_##A64 }, \
+    { KC_##A70, KC_##A71, KC_##A72, KC_##A73, KC_##A74 }, \
+    { KC_##A80, KC_##A81, KC_##A82, KC_##A83, KC_##A84 }, \
+    { KC_NO,    KC_NO,    KC_NO,    KC_##B03, KC_##B04 }, \
+    { KC_NO,    KC_NO,    KC_NO,    KC_##B13, KC_##B14 }, \
+    { KC_##B20, KC_##B21, KC_NO,    KC_##B23, KC_##B24 }, \
+    { KC_##B30, KC_##B31, KC_##B32, KC_##B33, KC_##B34 }, \
+    { KC_##B40, KC_##B41, KC_##B42, KC_##B43, KC_##B44 }, \
+    { KC_##B50, KC_##B51, KC_##B52, KC_##B53, KC_##B54 }, \
+    { KC_##B60, KC_##B61, KC_##B62, KC_##B63, KC_##B64 }, \
+    { KC_##B70, KC_##B71, KC_##B72, KC_##B73, KC_##B74 }, \
+    { KC_##B80, KC_##B81, KC_##B82, KC_##B83, KC_##B84 }  \
 }
 
 #endif
