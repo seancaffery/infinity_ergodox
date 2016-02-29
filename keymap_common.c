@@ -15,11 +15,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "keymap_common.h"
+#include "serial_link/system/driver.h"
 
 
 /* translates key to keycode */
 uint8_t keymap_key_to_keycode(uint8_t layer, keypos_t key)
 {
+    if (is_serial_link_connected())
+        return KC_NO;
     return keymaps[(layer)][(key.row)][(key.col)];
 }
 
