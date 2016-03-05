@@ -46,7 +46,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(  // layer 2 : keyboard functions
         // left hand
         BTLD,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
-        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS, FN3,
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
         TRNS,TRNS,TRNS,TRNS,TRNS,
@@ -54,7 +54,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            TRNS,
                                  TRNS,TRNS,TRNS,
         // right hand
-             FN3, TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+             TRNS, TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
                   TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,

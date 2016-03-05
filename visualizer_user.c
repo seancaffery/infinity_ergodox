@@ -98,13 +98,21 @@ void update_user_visualizer_state(visualizer_state_t* state) {
     // state->status.layer
     // state->status.default_layer
     // state->status.leds (see led.h for available statuses)
-    if (state->status.layer & 0x2) {
-        state->target_lcd_color = LCD_COLOR(0xA0, 0xB0, 0xFF);
-        state->layer_text = "Layer 2";
+    if (state->status.layer & 0x8) {
+        state->target_lcd_color = LCD_COLOR(0xC0, 0xB0, 0xFF);
+        state->layer_text = "Numpad";
+    }
+    else if (state->status.layer & 0x4) {
+        state->target_lcd_color = LCD_COLOR(0, 0xB0, 0xFF);
+        state->layer_text = "KBD functions";
+    }
+    else if (state->status.layer & 0x2) {
+        state->target_lcd_color = LCD_COLOR(0x80, 0xB0, 0xFF);
+        state->layer_text = "Function keys";
     }
     else {
-        state->target_lcd_color = LCD_COLOR(0x50, 0xB0, 0xFF);
-        state->layer_text = "Layer 1";
+        state->target_lcd_color = LCD_COLOR(0x40, 0xB0, 0xFF);
+        state->layer_text = "Default";
     }
     // You can also stop existing animations, and start your custom ones here
     // remember that you should normally have only one animation for the LCD
