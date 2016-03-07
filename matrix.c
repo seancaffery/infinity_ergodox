@@ -67,7 +67,12 @@ uint8_t matrix_scan(void)
             case 8: palSetPad(GPIOD, 0);    break;
         }
 
-        wait_us(1); // need wait to settle pin state
+        // need wait to settle pin state
+        // if you wait too short, or have a too high update rate
+        // the keyboard might freeze, or there might not be enough
+        // processing power to update the LCD screen properly.
+        // 20us, or two ticks at 100000Hz seems to be OK
+        wait_us(20);
 
         // read col data: { PTD1, PTD4, PTD5, PTD6, PTD7 }
         data = ((palReadPort(GPIOD) & 0xF0) >> 3) |
