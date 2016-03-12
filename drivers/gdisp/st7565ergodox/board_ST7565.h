@@ -76,12 +76,10 @@ static GFXINLINE void post_init_board(GDisplay *g) {
 
 static GFXINLINE void setpin_reset(GDisplay *g, bool_t state) {
     (void) g;
-    if (state)
-    {
+    if (state) {
         palClearPad(ST7565_GPIOPORT, ST7565_RST_PIN);
     }
-    else
-    {
+    else {
         palSetPad(ST7565_GPIOPORT, ST7565_RST_PIN);
     }
 }
@@ -100,9 +98,13 @@ static GFXINLINE void release_bus(GDisplay *g) {
 
 static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
 	(void) g;
-	if (st7565_is_data_mode)
-	{
+	if (st7565_is_data_mode) {
+	    // The sleeps need to be at lest 10 vs 25 ns respectively
+	    // So let's sleep two ticks, one tick might not be enough
+	    // if we are at the end of the tick
+	    chThdSleep(2);
         palClearPad(ST7565_GPIOPORT, ST7565_A0_PIN);
+        chThdSleep(2);
         st7565_is_data_mode = 0;
 	}
 	spiSend(&SPID1, 1, &cmd);
@@ -110,9 +112,13 @@ static GFXINLINE void write_cmd(GDisplay *g, uint8_t cmd) {
 
 static GFXINLINE void write_data(GDisplay *g, uint8_t* data, uint16_t length) {
 	(void) g;
-	if (!st7565_is_data_mode)
-	{
+	if (!st7565_is_data_mode) {
+	    // The sleeps need to be at lest 10 vs 25 ns respectively
+	    // So let's sleep two ticks, one tick might not be enough
+	    // if we are at the end of the tick
+	    chThdSleep(2);
         palSetPad(ST7565_GPIOPORT, ST7565_A0_PIN);
+	    chThdSleep(2);
         st7565_is_data_mode = 1;
 	}
 	spiSend(&SPID1, length, data);
