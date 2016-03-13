@@ -9,6 +9,12 @@ It is based on Jun Wako's TMK firmware
 
 [https://github.com/tmk/tmk_core](https://github.com/tmk/tmk_core) and [https://github.com/tmk/tmk_keyboard](https://github.com/tmk/tmk_keyboard). The readme files for those projects has a lot of useful information, as do the [Wiki](https://github.com/tmk/tmk_keyboard/wiki).
 
+Physical connection
+-------------------
+Connect the left half to the computer, and connect a link cable between the two halves.
+
+The firmware does currently not work when chaining several keyboards together. So you are limited to a single keyboard consisting of a left hand plus a right hand. Another limitation is that you have to connect the left hand to the computer, and the right hand to the left one. Both of these limitations can quite easily be fixed in the future. However I can't test the chaining myself, so I need some help, open a ticket if you are interested.
+
 Git notes
 ---------
 This repository uses submodules, so usually you need to run:
@@ -37,8 +43,15 @@ to build the everything.
 
 Upload
 ------
-To upload(flash) a new firmware to the keyboard run  
+To upload(flash) a new firmware to the keyboard, first enter the bootloader mode, either by pressing the dedicated flash button on the bottom of the keyboard, or by pressing a mapped bootloader button.
+
+The default layout has that button mapped on layer 2(keyboard functions). 
+
+When the keyboard is in bootloader mode, and the LCD is red with no text, you can run this command.
+
 $ make program
+
+For simple layout updates, you only need to flash the master(left) half. But each time there's a new firmware version or if you want to make some visualization changes, you need to flash them both.
 
 Changing keyboard layout
 ------------------------
@@ -46,4 +59,6 @@ Changing the keyboard layout works the same way as for the other TMK based keybo
 
 LCD Visualization
 -----------------
-In order to customize the LCD visualization, which includes both the backlight and the LCD screen display itself, you need to edit the visualizer_user.c file. The file is quite well commented, so just read through the comments, and start experimenting. At the very least you probably want to edit the layer names and colors, in the update_user_visualizer_state function.
+In order to customize the LCD visualization, which includes both the backlight and the LCD screen display itself, you need to edit the visualizer\_user.c file. The file is quite well commented, so just read through the comments, and start experimenting. At the very least you probably want to edit the layer names and colors, in the update\_user\_visualizer\_state function.
+
+Currently there's no support for LED visualization. That should be easy to add, but I haven't installed LED's myself, so I would be unable to test. Contributions are welcome, but I can also consider making this myself if someone is willing to test. So open a ticket if you are interested.
