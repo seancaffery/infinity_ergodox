@@ -16,7 +16,7 @@ CHIBIOS = chibios
 SRC =	matrix.c \
 	keymap_common.c \
 	led.c \
-	callbacks.c 
+	user_hooks.c 
 
 ifdef KEYMAP
     SRC := keymap_$(KEYMAP).c $(SRC)
