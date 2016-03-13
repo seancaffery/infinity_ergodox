@@ -152,7 +152,8 @@ void update_user_visualizer_state(visualizer_state_t* state) {
 void user_visualizer_suspend(visualizer_state_t* state) {
     state->layer_text = "Suspending...";
     uint8_t hue = LCD_HUE(state->current_lcd_color);
-    state->target_lcd_color = LCD_COLOR(hue, 0, 0);
+    uint8_t sat = LCD_SAT(state->current_lcd_color);
+    state->target_lcd_color = LCD_COLOR(hue, sat, 0);
     start_keyframe_animation(&suspend_animation);
 }
 
