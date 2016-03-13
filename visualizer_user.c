@@ -58,7 +58,12 @@ static keyframe_animation_t startup_animation = {
     .num_frames = 4,
     .loop = false,
     .frame_lengths = {0, MS2ST(1000), MS2ST(5000), 0},
-    .frame_functions = {display_welcome, keyframe_animate_backlight_color, keyframe_no_operation, user_visualizer_inited},
+    .frame_functions = {
+            display_welcome,
+            keyframe_animate_backlight_color,
+            keyframe_no_operation,
+            enable_visualization
+    },
 };
 
 // The color animation animates the LCD color when you change layers
@@ -81,6 +86,29 @@ static keyframe_animation_t lcd_animation = {
     .frame_functions = {keyframe_display_layer_text, keyframe_display_layer_bitmap},
 };
 
+static keyframe_animation_t suspend_animation = {
+    .num_frames = 3,
+    .loop = false,
+    .frame_lengths = {0, MS2ST(1000), 0},
+    .frame_functions = {
+            keyframe_display_layer_text,
+            keyframe_animate_backlight_color,
+            keyframe_disable_lcd_and_backlight,
+    },
+};
+
+static keyframe_animation_t resume_animation = {
+    .num_frames = 5,
+    .loop = false,
+    .frame_lengths = {0, 0, MS2ST(1000), MS2ST(5000), 0},
+    .frame_functions = {
+            keyframe_enable_lcd_and_backlight,
+            display_welcome,
+            keyframe_animate_backlight_color,
+            keyframe_no_operation,
+            enable_visualization,
+    },
+};
 void initialize_user_visualizer(visualizer_state_t* state) {
     // The brightness will be dynamically adjustable in the future
     // But for now, change it here.
@@ -119,4 +147,17 @@ void update_user_visualizer_state(visualizer_state_t* state) {
     // and one for the background. But you can also combine them if you want.
     start_keyframe_animation(&lcd_animation);
     start_keyframe_animation(&color_animation);
+}
+
+void user_visualizer_suspend(visualizer_state_t* state) {
+    state->layer_text = "Suspending...";
+    uint8_t hue = LCD_HUE(state->current_lcd_color);
+    state->target_lcd_color = LCD_COLOR(hue, 0, 0);
+    start_keyframe_animation(&suspend_animation);
+}
+
+void user_visualizer_resume(visualizer_state_t* state) {
+    state->current_lcd_color = LCD_COLOR(0x00, 0x00, 0x00);
+    state->target_lcd_color = LCD_COLOR(0x10, 0xFF, 0xFF);
+    start_keyframe_animation(&resume_animation);
 }

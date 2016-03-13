@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "host.h"
 #include "hooks.h"
 #include "usb_main.h"
+#include "suspend.h"
 #include "serial_link/system/driver.h"
 
 void early_init_hook(void) {
@@ -30,18 +31,38 @@ void early_init_hook(void) {
 
 host_driver_t* keyboard_connect_hook(host_driver_t* default_driver) {
     while (true) {
-      if(USB_DRIVER.state == USB_ACTIVE) {
-          return default_driver;
-      }
-      if(is_serial_link_connected()) {
-          return get_serial_link_driver();
-      }
-      serial_link_update();
-      chThdSleepMilliseconds(50);
+        if(USB_DRIVER.state == USB_ACTIVE) {
+            return default_driver;
+        }
+        if(is_serial_link_connected()) {
+            return get_serial_link_driver();
+        }
+        serial_link_update();
+        chThdSleepMilliseconds(50);
     }
 }
 
-void scan_loop_hook() {
+void scan_loop_hook(void) {
     serial_link_update();
-    visualizer_set_state(default_layer_state, layer_state, host_keyboard_leds());
+    visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
 }
+
+void suspend_entry_hook(void) {
+    visualizer_suspend();
+}
+
+void wakeup_hook(void) {
+    visualizer_resume();
+}
+
+void suspend_loop_hook(void) {
+    serial_link_update();
+    visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
+    /* Do this in the suspended state */
+    suspend_power_down(); // on AVR this deep sleeps for 15ms
+    /* Remote wakeup */
+    if((USB_DRIVER.status & 2) && suspend_wakeup_condition()) {
+        send_remote_wakeup(&USB_DRIVER);
+    }
+}
+
