@@ -28,12 +28,21 @@ If you are using Windows, I recommend that you use Cygwin (that's what I'm using
 In order to compile the firmware you need:
 
 1.  GNU make
-1.  [GCC ARM Embedded](https://launchpad.net/gcc-arm-embedded). Note that the 5.x and 6.x versions don't work at the moment, so I recommend that you download the 4.9 version.
-    
-    You can also download the ChibiStudio from [www.chibios.org](http://www.chibios.org), which comes with eclipse and other tools.
+1.  [GCC ARM Embedded](https://launchpad.net/gcc-arm-embedded):
+	* Note that the 5.x and 6.x versions don't work at the moment, so I recommend that you download the 4.9 version.
+	* You can also download the ChibiStudio from [www.chibios.org](http://www.chibios.org), which comes with eclipse and other tools.
+	* Make sure to add the bin folder to the path. In Cygwin you can edit .bash_profile in your home directory and add it. Here's what I added to the end of the file `PATH="${PATH}:/cygdrive/C/ChibiStudio/tools/GNU Tools ARM Embedded/4.9 2015q3/bin"`
+	* For OSX, you can install the px4/px4/gcc-arm-none-eabi-49 brew package:
+	
+			brew tap px4/px4
+			brew update
+			brew install gcc-arm-none-eabi-49
+		
+1. dfu-util:
 
-	Make sure to add the bin folder to the path. In Cygwin you can edit .bash_profile in your home directory and add it. Here's what I added to the end of the file `PATH="${PATH}:/cygdrive/C/ChibiStudio/tools/GNU Tools ARM Embedded/4.9 2015q3/bin"`
-1. dfu-util - On windows you also need to install some drivers. You can find more detailed instructions on the [Kiibohd controller wiki page](https://github.com/kiibohd/controller/wiki/Loading-DFU-Firmware). You also need to ensure that dfu-util is in your path.
+ 	* On windows you also need to install some drivers. You can find more detailed instructions on the [Kiibohd controller wiki page](https://github.com/kiibohd/controller/wiki/Loading-DFU-Firmware). You also need to ensure that dfu-util is in your path.
+ 	
+	* On OSX, you can install `dfu-util` via brew: `brew install dfu-util`
 
 Build
 -----
