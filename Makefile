@@ -94,6 +94,7 @@ VISUALIZER_ENABLE = yes # Enable to customize the LCD and LEDS
 ifdef VISUALIZER_ENABLE
 LCD_ENABLE = yes
 LCD_BACKLIGHT_ENABLE = yes
+LED_ENABLE = yes
 else
 # These options are incompatible with the visualizer
 STATUS_LED_ENABLE = yes # Enable CAPS LOCK display for the LCD screen
@@ -102,6 +103,10 @@ endif
 
 ifdef LCD_ENABLE
 include drivers/gdisp/st7565ergodox/driver.mk
+endif
+
+ifdef LED_ENABLE
+include drivers/gdisp/IS31FL3731C/driver.mk
 endif
 
 ifdef STATUS_LED_ENABLE

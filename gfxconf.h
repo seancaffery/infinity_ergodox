@@ -126,26 +126,27 @@
 //#define GDISP_STARTUP_COLOR                          Black
 #define GDISP_NEED_STARTUP_LOGO                      FALSE
 
-//#define GDISP_TOTAL_DISPLAYS                         1
+//#define GDISP_TOTAL_DISPLAYS		                 2
 
-//#define GDISP_DRIVER_LIST                            GDISPVMT_Win32, GDISPVMT_Win32
-//    #ifdef GDISP_DRIVER_LIST
-//        // For code and speed optimization define as TRUE or FALSE if all controllers have the same capability
-//        #define GDISP_HARDWARE_STREAM_WRITE          FALSE
-//        #define GDISP_HARDWARE_STREAM_READ           FALSE
-//        #define GDISP_HARDWARE_STREAM_POS            FALSE
-//        #define GDISP_HARDWARE_DRAWPIXEL             FALSE
-//        #define GDISP_HARDWARE_CLEARS                FALSE
-//        #define GDISP_HARDWARE_FILLS                 FALSE
-//        #define GDISP_HARDWARE_BITFILLS              FALSE
-//        #define GDISP_HARDWARE_SCROLL                FALSE
-//        #define GDISP_HARDWARE_PIXELREAD             FALSE
-//        #define GDISP_HARDWARE_CONTROL               FALSE
-//        #define GDISP_HARDWARE_QUERY                 FALSE
-//        #define GDISP_HARDWARE_CLIP                  FALSE
+#define GDISP_DRIVER_LIST                            GDISPVMT_ST7565_ERGODOX, GDISPVMT_IS31FL3731C_ERGODOX
+
+    #ifdef GDISP_DRIVER_LIST
+        // For code and speed optimization define as TRUE or FALSE if all controllers have the same capability
+        #define GDISP_HARDWARE_STREAM_WRITE          FALSE
+        #define GDISP_HARDWARE_STREAM_READ           FALSE
+        #define GDISP_HARDWARE_STREAM_POS            FALSE
+        #define GDISP_HARDWARE_DRAWPIXEL             TRUE
+        #define GDISP_HARDWARE_CLEARS                FALSE
+        #define GDISP_HARDWARE_FILLS                 FALSE
+        #define GDISP_HARDWARE_BITFILLS              FALSE
+        #define GDISP_HARDWARE_SCROLL                FALSE
+        #define GDISP_HARDWARE_PIXELREAD             TRUE
+        #define GDISP_HARDWARE_CONTROL               TRUE
+        #define GDISP_HARDWARE_QUERY                 FALSE
+        #define GDISP_HARDWARE_CLIP                  FALSE
 
         #define GDISP_PIXELFORMAT                    GDISP_PIXELFORMAT_RGB888
-//    #endif
+    #endif
 
 // The custom format is not defined for some reason, so define it as error
 // so we don't get compiler warnings
