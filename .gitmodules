@@ -10,3 +10,6 @@
 [submodule "chibios"]
 	path = chibios
 	url = https://github.com/flabbergast/chibios.git
+[submodule "chibios_contrib"]
+	path = chibios_contrib
+	url = https://github.com/ChibiOS/ChibiOS-Contrib
