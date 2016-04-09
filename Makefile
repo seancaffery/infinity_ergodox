@@ -11,6 +11,7 @@ SERIAL_DIR = ./tmk_serial_link
 TARGET_DIR = .
 
 CHIBIOS = chibios
+CHIBIOS_CONTRIB = chibios_contrib
 
 # project specific files
 SRC =	matrix.c \
