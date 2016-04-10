@@ -9,6 +9,14 @@ It is based on Jun Wako's TMK firmware
 
 [https://github.com/tmk/tmk_core](https://github.com/tmk/tmk_core) and [https://github.com/tmk/tmk_keyboard](https://github.com/tmk/tmk_keyboard). The readme files for those projects has a lot of useful information, as do the [Wiki](https://github.com/tmk/tmk_keyboard/wiki).
 
+News and important information
+------------------------------
+**Always read this section every time you pull a new version**
+
+**10.4.2016**
+
+* The location of most submodules have moved to my own forks. Therefore you need to run `git submodule sync --recursive` before doing `git submodule update --init --recursive`
+
 Physical connection
 -------------------
 Connect the left half to the computer, and connect a link cable between the two halves.
@@ -17,9 +25,16 @@ The firmware does currently not work when chaining several keyboards together. S
 
 Git notes
 ---------
-This repository uses submodules, so usually you need to run:
-`git submodule update --init --recursive`
-after you clone the repository, and after that, every time you switch a branch or pull a new version.
+This repository uses submodules, so after you:
+
+* Clone the repository
+* Pull a new version
+* Switch a branch
+
+You should run
+
+1. `git submodule sync --recursive` (This is not strictly needed, but in case the location of the repositories changes, it's good to do)
+1. `git submodule update --init --recursive`
 
 Prerequisites
 -------------
