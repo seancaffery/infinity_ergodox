@@ -44,6 +44,56 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define GDISP_FLG_NEEDFLUSH			(GDISP_FLG_DRIVER<<0)
 
+#define IS31_ADDR_DEFAULT 0x74
+
+#define IS31_REG_CONFIG  0x00
+// bits in reg
+#define IS31_REG_CONFIG_PICTUREMODE 0x00
+#define IS31_REG_CONFIG_AUTOPLAYMODE 0x08
+#define IS31_REG_CONFIG_AUDIOPLAYMODE 0x18
+// D2:D0 bits are starting frame for autoplay mode
+
+#define IS31_REG_PICTDISP 0x01 // D2:D0 frame select for picture mode
+
+#define IS31_REG_AUTOPLAYCTRL1 0x02
+// D6:D4 number of loops (000=infty)
+// D2:D0 number of frames to be used
+
+#define IS31_REG_AUTOPLAYCTRL2 0x03 // D5:D0 delay time (*11ms)
+
+#define IS31_REG_DISPLAYOPT 0x05
+#define IS31_REG_DISPLAYOPT_INTENSITY_SAME 0x20 // same intensity for all frames
+#define IS31_REG_DISPLAYOPT_BLINK_ENABLE 0x8
+// D2:D0 bits blink period time (*0.27s)
+
+#define IS31_REG_AUDIOSYNC 0x06
+#define IS31_REG_AUDIOSYNC_ENABLE 0x1
+
+#define IS31_REG_FRAMESTATE 0x07
+
+#define IS31_REG_BREATHCTRL1 0x08
+// D6:D4 fade out time (26ms*2^i)
+// D2:D0 fade in time (26ms*2^i)
+
+#define IS31_REG_BREATHCTRL2 0x09
+#define IS31_REG_BREATHCTRL2_ENABLE 0x10
+// D2:D0 extinguish time (3.5ms*2^i)
+
+#define IS31_REG_SHUTDOWN 0x0A
+#define IS31_REG_SHUTDOWN_OFF 0x0
+#define IS31_REG_SHUTDOWN_ON 0x1
+
+#define IS31_REG_AGCCTRL 0x0B
+#define IS31_REG_ADCRATE 0x0C
+
+#define IS31_COMMANDREGISTER 0xFD
+#define IS31_FUNCTIONREG 0x0B    // helpfully called 'page nine'
+
+#define IS31_TIMEOUT 5000
+
+// buffer for sending the whole page at once (used also as a temp buffer)
+uint8_t full_page[0xB4+1] = {0};
+
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
@@ -67,6 +117,12 @@ typedef struct{
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
+static GFXINLINE void write_register(GDisplay* g, uint8_t page, uint8_t reg, uint8_t data) {
+    uint8_t tx[2] __attribute__((aligned(2)));
+    tx[0] = reg;
+    tx[1] = data;
+    write_data(g, page, tx, 2);
+}
 
 LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
@@ -74,12 +130,34 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 	// Initialise the board interface
 	init_board(g);
+	gfxSleepMilliseconds(10);
 
+    // zero function page, all registers (assuming full_page is all zeroes)
+    write_data(g, IS31_FUNCTIONREG, full_page, 0xD + 1);
+    set_hardware_shutdown(g, false);
+    gfxSleepMilliseconds(10);
+    // software shutdown
+    write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_OFF);
+    gfxSleepMilliseconds(10);
+    // zero function page, all registers
+    write_data(g, IS31_FUNCTIONREG, full_page, 0xD + 1);
+    gfxSleepMilliseconds(10);
+
+
+    // zero all LED registers on all 8 pages, and enable the mask
+    __builtin_memset(full_page, 0, sizeof(full_page));
+    __builtin_memcpy(full_page+1, get_led_mask(g), 0x12);
+    for(uint8_t i=0; i<8; i++) {
+        write_data(g, i, full_page, 0xB4 + 1);
+        gfxSleepMilliseconds(1);
+    }
+
+    // software shutdown disable (i.e. turn stuff on)
+    write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_ON);
+    gfxSleepMilliseconds(10);
 
     // Finish Init
     post_init_board(g);
-
- 	// Release the bus
 
 	/* Initialise the GDISP structure */
 	g->g.Width = GDISP_SCREEN_WIDTH;
