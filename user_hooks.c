@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "action_layer.h"
 #include "visualizer.h"
 #include "host.h"
-#include "hooks.h"
+#include "hook.h"
 #include "usb_main.h"
 #include "suspend.h"
 #include "serial_link/system/driver.h"
@@ -29,7 +29,7 @@ void early_init_hook(void) {
     visualizer_init();
 }
 
-host_driver_t* keyboard_connect_hook(host_driver_t* default_driver) {
+host_driver_t* hook_keyboard_connect(host_driver_t* default_driver) {
     while (true) {
         if(USB_DRIVER.state == USB_ACTIVE) {
             return default_driver;
