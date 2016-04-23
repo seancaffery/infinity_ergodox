@@ -88,23 +88,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define IS31_COMMANDREGISTER 0xFD
 #define IS31_FUNCTIONREG 0x0B    // helpfully called 'page nine'
+#define IS31_FUNCTIONREG_SIZE 0xD
+
+#define IS31_FRAME_SIZE 0xB4
 
 #define IS31_TIMEOUT 5000
-
-// buffer for sending the whole page at once (used also as a temp buffer)
-uint8_t full_page[0xB4+1] = {0};
 
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
 
 typedef struct{
-    uint8_t ram[GDISP_SCREEN_HEIGHT * GDISP_SCREEN_WIDTH / 8];
+    // Used both for the actual pixel data, and for initialization
+    // The first byte is reserved for the offset of the write
+    uint8_t ram[IS31_FRAME_SIZE + 1];
 }PrivData;
 
 // Some common routines and macros
 #define PRIV(g)                         ((PrivData*)g->priv)
-#define RAM(g)							(PRIV(g)->ram)
+#define RAM(g)							(PRIV(g)->ram + 1)
 
 // Some common routines and macros
 #define delay(us)			gfxSleepMicroseconds(us)
@@ -124,31 +126,36 @@ static GFXINLINE void write_register(GDisplay* g, uint8_t page, uint8_t reg, uin
     write_data(g, page, tx, 2);
 }
 
+static GFXINLINE void write_ram(GDisplay *g, uint8_t page, uint16_t offset, uint16_t length) {
+    PRIV(g)->ram[0] = offset;
+    write_data(g, page, PRIV(g)->ram, length + 1);
+}
+
 LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	g->priv = gfxAlloc(sizeof(PrivData));
+    __builtin_memset(PRIV(g), 0, sizeof(PrivData));
 
 	// Initialise the board interface
 	init_board(g);
 	gfxSleepMilliseconds(10);
 
     // zero function page, all registers (assuming full_page is all zeroes)
-    write_data(g, IS31_FUNCTIONREG, full_page, 0xD + 1);
+    write_ram(g, IS31_FUNCTIONREG, 0, IS31_FUNCTIONREG_SIZE);
     set_hardware_shutdown(g, false);
     gfxSleepMilliseconds(10);
     // software shutdown
     write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_OFF);
     gfxSleepMilliseconds(10);
     // zero function page, all registers
-    write_data(g, IS31_FUNCTIONREG, full_page, 0xD + 1);
+    write_ram(g, IS31_FUNCTIONREG, 0, IS31_FUNCTIONREG_SIZE);
     gfxSleepMilliseconds(10);
 
 
     // zero all LED registers on all 8 pages, and enable the mask
-    __builtin_memset(full_page, 0, sizeof(full_page));
-    __builtin_memcpy(full_page+1, get_led_mask(g), 0x12);
+    __builtin_memcpy(RAM(g)+1, get_led_mask(g), 0x12);
     for(uint8_t i=0; i<8; i++) {
-        write_data(g, i, full_page, 0xB4 + 1);
+        write_ram(g, i, 0, 0xB4);
         gfxSleepMilliseconds(1);
     }
 
@@ -230,7 +237,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			break;
 		case GDISP_ROTATE_270:
 			x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			x = g->p.x;
+			y = g->p.x;
 			break;
 		}
 		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? White : Black;

@@ -36,6 +36,9 @@ static const uint8_t led_mask[] = {
 	0x00, 0x00, /* C9-1 -> C9-16 */
 };
 
+#define IS31_ADDR_DEFAULT 0x74 // AD connected to GND
+#define IS31_TIMEOUT 5000
+
 static GFXINLINE void init_board(GDisplay *g) {
     (void) g;
     /* I2C pins */

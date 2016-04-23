@@ -224,7 +224,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			break;
 		case GDISP_ROTATE_270:
 			x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			x = g->p.x;
+			y = g->p.x;
 			break;
 		}
 		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? White : Black;
