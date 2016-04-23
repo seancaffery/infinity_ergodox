@@ -112,26 +112,31 @@ typedef struct{
 #define PRIV(g)                         ((PrivData*)g->priv)
 #define RAM(g)							(PRIV(g)->ram + 1)
 
-// Some common routines and macros
-#define delay(us)			gfxSleepMicroseconds(us)
-#define delay_ms(ms)		gfxSleepMilliseconds(ms)
-
 #define xyaddr(x, y)		((x) + (y)*GDISP_SCREEN_WIDTH)
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
 /*===========================================================================*/
 
+static GFXINLINE void write_page(GDisplay* g, uint8_t page) {
+    uint8_t tx[2] __attribute__((aligned(2)));
+    tx[0] = IS31_COMMANDREGISTER;
+    tx[1] = page;
+    write_data(g, tx, 2);
+}
+
 static GFXINLINE void write_register(GDisplay* g, uint8_t page, uint8_t reg, uint8_t data) {
     uint8_t tx[2] __attribute__((aligned(2)));
     tx[0] = reg;
     tx[1] = data;
-    write_data(g, page, tx, 2);
+    write_page(g, page);
+    write_data(g, tx, 2);
 }
 
 static GFXINLINE void write_ram(GDisplay *g, uint8_t page, uint16_t offset, uint16_t length) {
     PRIV(g)->ram[0] = offset;
-    write_data(g, page, PRIV(g)->ram, length + 1);
+    write_page(g, page);
+    write_data(g, PRIV(g)->ram, length + 1);
 }
 
 LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
