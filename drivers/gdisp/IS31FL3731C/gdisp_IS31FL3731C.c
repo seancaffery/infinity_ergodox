@@ -30,10 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /*===========================================================================*/
 
 #ifndef GDISP_SCREEN_HEIGHT
-	#define GDISP_SCREEN_HEIGHT		32
+	#define GDISP_SCREEN_HEIGHT		9
 #endif
 #ifndef GDISP_SCREEN_WIDTH
-	#define GDISP_SCREEN_WIDTH		128
+	#define GDISP_SCREEN_WIDTH		16
 #endif
 #ifndef GDISP_INITIAL_CONTRAST
 	#define GDISP_INITIAL_CONTRAST	0
@@ -92,6 +92,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define IS31_FRAME_SIZE 0xB4
 
+#define IS31_PWM_REG 0x24
+#define IS31_PWM_SIZE 0x90
+
 #define IS31_TIMEOUT 5000
 
 /*===========================================================================*/
@@ -102,6 +105,7 @@ typedef struct{
     // Used both for the actual pixel data, and for initialization
     // The first byte is reserved for the offset of the write
     uint8_t ram[IS31_FRAME_SIZE + 1];
+    uint8_t page;
 }PrivData;
 
 // Some common routines and macros
@@ -112,8 +116,7 @@ typedef struct{
 #define delay(us)			gfxSleepMicroseconds(us)
 #define delay_ms(ms)		gfxSleepMilliseconds(ms)
 
-#define xyaddr(x, y)		((x) + ((y)>>3)*GDISP_SCREEN_WIDTH)
-#define xybit(y)			(1<<((y)&7))
+#define xyaddr(x, y)		((x) + (y)*GDISP_SCREEN_WIDTH)
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
@@ -135,6 +138,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 	// The private area is the display surface.
 	g->priv = gfxAlloc(sizeof(PrivData));
     __builtin_memset(PRIV(g), 0, sizeof(PrivData));
+	PRIV(g)->page = 0;
 
 	// Initialise the board interface
 	init_board(g);
@@ -162,6 +166,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
     // software shutdown disable (i.e. turn stuff on)
     write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_ON);
     gfxSleepMilliseconds(10);
+    __builtin_memset(RAM(g), 0, sizeof(IS31_FRAME_SIZE));
 
     // Finish Init
     post_init_board(g);
@@ -181,6 +186,11 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 		// Don't flush if we don't need it.
 		if (!(g->flags & GDISP_FLG_NEEDFLUSH))
 			return;
+
+		PRIV(g)->page++;
+		PRIV(g)->page %= 1;
+        write_ram(g, PRIV(g)->page, IS31_PWM_REG, IS31_PWM_SIZE);
+        write_register(g, IS31_FUNCTIONREG, IS31_REG_PICTDISP, PRIV(g)->page);
 
 		g->flags &= ~GDISP_FLG_NEEDFLUSH;
 	}
@@ -209,10 +219,8 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			y = g->p.x;
 			break;
 		}
-		if (gdispColor2Native(g->p.color) != Black)
-			RAM(g)[xyaddr(x, y)] |= xybit(y);
-		else
-			RAM(g)[xyaddr(x, y)] &= ~xybit(y);
+
+		RAM(g)[xyaddr(x, y)] = LUMA_OF(g->p.color);
 		g->flags |= GDISP_FLG_NEEDFLUSH;
 	}
 #endif
@@ -240,7 +248,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			y = g->p.x;
 			break;
 		}
-		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? White : Black;
+		return LUMA2COLOR(RAM(g)[xyaddr(x, y)]);
 	}
 #endif
 
