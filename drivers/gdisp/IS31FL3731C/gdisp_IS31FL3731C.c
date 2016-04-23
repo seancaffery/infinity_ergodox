@@ -262,8 +262,10 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			case powerOff:
 			case powerSleep:
 			case powerDeepSleep:
+                write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_OFF);
 				break;
 			case powerOn:
+                write_register(g, IS31_FUNCTIONREG, IS31_REG_SHUTDOWN, IS31_REG_SHUTDOWN_ON);
 				break;
 			default:
 				return;
