@@ -95,8 +95,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define IS31_PWM_REG 0x24
 #define IS31_PWM_SIZE 0x90
 
-#define IS31_TIMEOUT 5000
-
 /*===========================================================================*/
 /* Driver local functions.                                                   */
 /*===========================================================================*/
