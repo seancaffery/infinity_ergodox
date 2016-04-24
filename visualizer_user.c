@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "visualizer.h"
+#include "led_test.h"
 
 static const char* welcome_text[] = {"TMK", "Infinity Ergodox"};
 
@@ -109,6 +110,7 @@ static keyframe_animation_t resume_animation = {
             enable_visualization,
     },
 };
+
 void initialize_user_visualizer(visualizer_state_t* state) {
     // The brightness will be dynamically adjustable in the future
     // But for now, change it here.
@@ -116,6 +118,7 @@ void initialize_user_visualizer(visualizer_state_t* state) {
     state->current_lcd_color = LCD_COLOR(0x00, 0x00, 0xFF);
     state->target_lcd_color = LCD_COLOR(0x10, 0xFF, 0xFF);
     start_keyframe_animation(&startup_animation);
+    start_keyframe_animation(&led_test_animation);
 }
 
 void update_user_visualizer_state(visualizer_state_t* state) {
@@ -161,4 +164,5 @@ void user_visualizer_resume(visualizer_state_t* state) {
     state->current_lcd_color = LCD_COLOR(0x00, 0x00, 0x00);
     state->target_lcd_color = LCD_COLOR(0x10, 0xFF, 0xFF);
     start_keyframe_animation(&resume_animation);
+    start_keyframe_animation(&led_test_animation);
 }
