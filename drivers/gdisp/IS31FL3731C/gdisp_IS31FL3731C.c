@@ -112,8 +112,6 @@ typedef struct{
 #define PRIV(g)                         ((PrivData*)g->priv)
 #define RAM(g)							(PRIV(g)->ram + 1)
 
-#define xyaddr(x, y)		((x) + (y)*GDISP_SCREEN_WIDTH)
-
 /*===========================================================================*/
 /* Driver exported functions.                                                */
 /*===========================================================================*/
@@ -225,7 +223,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			break;
 		}
 
-		RAM(g)[xyaddr(x, y)] = LUMA_OF(g->p.color);
+		RAM(g)[get_led_address(g, x, y)] = LUMA_OF(g->p.color);
 		g->flags |= GDISP_FLG_NEEDFLUSH;
 	}
 #endif
@@ -253,7 +251,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			y = g->p.x;
 			break;
 		}
-		return LUMA2COLOR(RAM(g)[xyaddr(x, y)]);
+		return LUMA2COLOR(RAM(g)[get_led_address(g, x, y)]);
 	}
 #endif
 

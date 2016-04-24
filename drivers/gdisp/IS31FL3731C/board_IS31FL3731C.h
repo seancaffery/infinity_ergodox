@@ -18,11 +18,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _GDISP_LLD_BOARD_H
 #define _GDISP_LLD_BOARD_H
 
-#include "print.h"
-
 static const I2CConfig i2ccfg = {
   400000 // clock speed (Hz); 400kHz max for IS31
 };
+
+#define GDISP_SCREEN_WIDTH  7
+#define GDISP_SCREEN_HEIGHT 7
 
 static const uint8_t led_mask[] = {
 	0xFF, 0x00, /* C1-1 -> C1-16 */
@@ -35,6 +36,29 @@ static const uint8_t led_mask[] = {
 	0x00, 0x00, /* C8-1 -> C8-16 */
 	0x00, 0x00, /* C9-1 -> C9-16 */
 };
+
+// The address of the LED
+#define LA(c, r) (c + r * 16 )
+
+// The numbers in the comments are the led numbers DXX on the PCB
+// The mapping is taken from the schematic of left hand side
+static const uint8_t led_mapping[GDISP_SCREEN_WIDTH][GDISP_SCREEN_HEIGHT] = {
+//   45        44        43        42        41        40        39
+   { LA(1, 1), LA(1, 0), LA(0, 4), LA(0, 3), LA(0, 2), LA(0, 1), LA(0, 0)},
+//   52        51        50        49        48        47        46
+   { LA(2, 3), LA(2, 2), LA(2, 1), LA(2, 0), LA(1, 4), LA(1, 3), LA(1, 2) },
+//   58        57        56        55        54        53        N/A
+   { LA(3, 4), LA(3, 3), LA(3, 2), LA(3, 1), LA(3, 0), LA(2, 4), LA(8, 8) },
+//   67        66        65        64        63        62        61
+   { LA(5, 3), LA(5, 2), LA(5, 1), LA(5, 0), LA(4, 4), LA(4, 3), LA(4, 2) },
+//   76        75        74        73        72        60        59
+   { LA(7, 3), LA(7, 2), LA(7, 1), LA(7, 0), LA(6, 3), LA(4, 1), LA(4, 0) },
+//   N/A       N/A       N/A       N/A       N/A       N/A       68
+   { LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(5, 4) },
+//   N/A       N/A       N/A       N/A       71        70        69
+   { LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(6, 2), LA(6, 1), LA(6, 0) },
+};
+
 
 #define IS31_ADDR_DEFAULT 0x74 // AD connected to GND
 #define IS31_TIMEOUT 5000
@@ -61,6 +85,12 @@ static GFXINLINE void post_init_board(GDisplay *g) {
 static GFXINLINE const uint8_t* get_led_mask(GDisplay* g) {
     (void) g;
     return led_mask;
+}
+
+static GFXINLINE uint8_t get_led_address(GDisplay* g, uint16_t x, uint16_t y)
+{
+    (void) g;
+    return led_mapping[x][y];
 }
 
 static GFXINLINE void set_hardware_shutdown(GDisplay* g, bool shutdown) {
