@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "suspend.h"
 #include "serial_link/system/driver.h"
 
-void early_init_hook(void) {
+void hook_early_init(void) {
     init_serial_link();
     visualizer_init();
 }
@@ -42,20 +42,20 @@ host_driver_t* hook_keyboard_connect(host_driver_t* default_driver) {
     }
 }
 
-void scan_loop_hook(void) {
+void hook_keyboard_loop(void) {
     serial_link_update();
     visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
 }
 
-void suspend_entry_hook(void) {
+void hook_suspend_entry(void) {
     visualizer_suspend();
 }
 
-void wakeup_hook(void) {
+void hook_wakeup(void) {
     visualizer_resume();
 }
 
-void suspend_loop_hook(void) {
+void hook_suspend_loop(void) {
     serial_link_update();
     visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
     /* Do this in the suspended state */
