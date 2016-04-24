@@ -42,7 +42,7 @@ static const uint8_t led_mask[] = {
 
 // The numbers in the comments are the led numbers DXX on the PCB
 // The mapping is taken from the schematic of left hand side
-static const uint8_t led_mapping[GDISP_SCREEN_WIDTH][GDISP_SCREEN_HEIGHT] = {
+static const uint8_t led_mapping[GDISP_SCREEN_HEIGHT][GDISP_SCREEN_WIDTH] = {
 //   45        44        43        42        41        40        39
    { LA(1, 1), LA(1, 0), LA(0, 4), LA(0, 3), LA(0, 2), LA(0, 1), LA(0, 0)},
 //   52        51        50        49        48        47        46
@@ -90,7 +90,7 @@ static GFXINLINE const uint8_t* get_led_mask(GDisplay* g) {
 static GFXINLINE uint8_t get_led_address(GDisplay* g, uint16_t x, uint16_t y)
 {
     (void) g;
-    return led_mapping[x][y];
+    return led_mapping[y][x];
 }
 
 static GFXINLINE void set_hardware_shutdown(GDisplay* g, bool shutdown) {
