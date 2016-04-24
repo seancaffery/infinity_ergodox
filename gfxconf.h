@@ -71,7 +71,7 @@
 //#define GDISP_NEED_ARCSECTORS                        FALSE
 //#define GDISP_NEED_CONVEX_POLYGON                    FALSE
 //#define GDISP_NEED_SCROLL                            FALSE
-//#define GDISP_NEED_PIXELREAD                         FALSE
+#define GDISP_NEED_PIXELREAD                         TRUE
 #define GDISP_NEED_CONTROL                           TRUE
 //#define GDISP_NEED_QUERY                             FALSE
 //#define GDISP_NEED_MULTITHREAD                       FALSE
