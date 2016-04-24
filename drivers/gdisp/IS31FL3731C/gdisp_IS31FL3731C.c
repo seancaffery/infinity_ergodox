@@ -209,17 +209,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			x = g->p.x;
 			y = g->p.y;
 			break;
-		case GDISP_ROTATE_90:
-			x = g->p.y;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
-			break;
 		case GDISP_ROTATE_180:
 			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			break;
-		case GDISP_ROTATE_270:
-			x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			y = g->p.x;
+			y = g->p.y;
 			break;
 		}
 
@@ -238,17 +230,9 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			x = g->p.x;
 			y = g->p.y;
 			break;
-		case GDISP_ROTATE_90:
-			x = g->p.y;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.x;
-			break;
 		case GDISP_ROTATE_180:
 			x = GDISP_SCREEN_WIDTH-1 - g->p.x;
-			y = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			break;
-		case GDISP_ROTATE_270:
-			x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			y = g->p.x;
+			y = g->p.y;
 			break;
 		}
 		return LUMA2COLOR(RAM(g)[get_led_address(g, x, y)]);
