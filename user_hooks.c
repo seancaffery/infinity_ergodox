@@ -47,15 +47,15 @@ void hook_keyboard_loop(void) {
     visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
 }
 
-void hook_suspend_entry(void) {
+void hook_usb_suspend_entry(void) {
     visualizer_suspend();
 }
 
-void hook_wakeup(void) {
+void hook_usb_wakeup(void) {
     visualizer_resume();
 }
 
-void hook_suspend_loop(void) {
+void hook_usb_suspend_loop(void) {
     serial_link_update();
     visualizer_update(default_layer_state, layer_state, host_keyboard_leds());
     /* Do this in the suspended state */
