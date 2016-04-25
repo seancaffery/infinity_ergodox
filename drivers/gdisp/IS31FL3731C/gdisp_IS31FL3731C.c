@@ -158,7 +158,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 
 
     // zero all LED registers on all 8 pages, and enable the mask
-    __builtin_memcpy(RAM(g)+1, get_led_mask(g), 0x12);
+    __builtin_memcpy(RAM(g), get_led_mask(g), 0x12);
     for(uint8_t i=0; i<8; i++) {
         write_ram(g, i, 0, 0xB4);
         gfxSleepMilliseconds(1);
