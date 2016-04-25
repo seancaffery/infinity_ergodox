@@ -39,6 +39,8 @@ static const uint8_t led_mask[] = {
 
 // The address of the LED
 #define LA(c, r) (c + r * 16 )
+// Need to be an address that is not mapped, but inside the range of the controller matrix
+#define NA LA(8, 8)
 
 // The numbers in the comments are the led numbers DXX on the PCB
 // The mapping is taken from the schematic of left hand side
@@ -48,15 +50,15 @@ static const uint8_t led_mapping[GDISP_SCREEN_HEIGHT][GDISP_SCREEN_WIDTH] = {
 //   52        51        50        49        48        47        46
    { LA(2, 3), LA(2, 2), LA(2, 1), LA(2, 0), LA(1, 4), LA(1, 3), LA(1, 2) },
 //   58        57        56        55        54        53        N/A
-   { LA(3, 4), LA(3, 3), LA(3, 2), LA(3, 1), LA(3, 0), LA(2, 4), LA(8, 8) },
+   { LA(3, 4), LA(3, 3), LA(3, 2), LA(3, 1), LA(3, 0), LA(2, 4), NA },
 //   67        66        65        64        63        62        61
    { LA(5, 3), LA(5, 2), LA(5, 1), LA(5, 0), LA(4, 4), LA(4, 3), LA(4, 2) },
 //   76        75        74        73        72        60        59
    { LA(7, 3), LA(7, 2), LA(7, 1), LA(7, 0), LA(6, 3), LA(4, 1), LA(4, 0) },
 //   N/A       N/A       N/A       N/A       N/A       N/A       68
-   { LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(5, 4) },
+   { NA,       NA,       NA,       NA,       NA,       NA,       LA(5, 4) },
 //   N/A       N/A       N/A       N/A       71        70        69
-   { LA(8, 8), LA(8, 8), LA(8, 8), LA(8, 8), LA(6, 2), LA(6, 1), LA(6, 0) },
+   { NA,       NA,       NA,       NA,       LA(6, 2), LA(6, 1), LA(6, 0) },
 };
 
 
