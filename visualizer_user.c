@@ -140,7 +140,7 @@ void update_user_visualizer_state(visualizer_state_t* state) {
     }
     else {
         state->target_lcd_color = LCD_COLOR(0x40, 0xB0, 0xFF);
-        state->layer_text = "Default";
+        state->layer_text = "  :D :D :D :D :D :D";
     }
     // You can also stop existing animations, and start your custom ones here
     // remember that you should normally have only one animation for the LCD

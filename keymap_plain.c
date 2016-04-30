@@ -21,20 +21,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(  // layer 0 : default
         // left hand
-        EQL, 1,   2,   3,   4,   5,   ESC,
-        BSLS,Q,   W,   E,   R,   T,   FN1,
-        TAB, A,   S,   D,   F,   G,
+        EQL, 1,   2,   3,   4,   5,   BSLS,
+        ESC, Q,   W,   E,   R,   T,   FN1,
+        LCTL,A,   S,   D,   F,   G,
         LSFT,Z,   X,   C,   V,   B,   FN0,
         LGUI,GRV, BSLS,LEFT,RGHT,
                                       LCTL,LALT,
                                            HOME,
-                                 BSPC,DEL, END,
+                                 LGUI,BSPC,END,
         // right hand
-             FN2, 6,   7,   8,   9,   0,   MINS,
-             LBRC,Y,   U,   I,   O,   P,   RBRC,
+             LBRC,6,   7,   8,   9,   0,   MINS,
+             RBRC,Y,   U,   I,   O,   P,   BSPC,
                   H,   J,   K,   L,   SCLN,QUOT,
              FN0, N,   M,   COMM,DOT, SLSH,RSFT,
-                       LEFT,DOWN,UP,  RGHT,RGUI,
+                       LEFT,DOWN,UP,  RGHT,ENT,
         RALT,RCTL,
         PGUP,
         PGDN,ENT, SPC
@@ -72,7 +72,7 @@ const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            TRNS,
                                  TRNS,TRNS,TRNS,
         // right hand
-             TRNS, TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+             TRNS, TRNS,TRNS,TRNS,TRNS,TRNS,BTLD,
              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
                   TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
              TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,

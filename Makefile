@@ -122,3 +122,9 @@ include $(SERIAL_DIR)/serial_link_tests.mk
 
 program: $(BUILDDIR)/$(PROJECT).bin
 	dfu-util -D $(BUILDDIR)/$(PROJECT).bin
+
+program_left: $(BUILDDIR)/$(PROJECT).bin
+	dfu-util -p "20-1" -D $(BUILDDIR)/$(PROJECT).bin
+
+program_right: $(BUILDDIR)/$(PROJECT).bin
+	dfu-util -p "20-2" -D $(BUILDDIR)/$(PROJECT).bin
