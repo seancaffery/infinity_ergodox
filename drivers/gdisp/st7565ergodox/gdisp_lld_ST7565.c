@@ -34,7 +34,7 @@
 
 #define GDISP_FLG_NEEDFLUSH			(GDISP_FLG_DRIVER<<0)
 
-#include "drivers/gdisp/ST7565ergodox/st7565.h"
+#include "drivers/gdisp/st7565ergodox/st7565.h"
 
 /*===========================================================================*/
 /* Driver config defaults for backward compatibility.               	     */
@@ -224,7 +224,7 @@ LLDSPEC bool_t gdisp_lld_init(GDisplay *g) {
 			break;
 		case GDISP_ROTATE_270:
 			x = GDISP_SCREEN_HEIGHT-1 - g->p.y;
-			x = g->p.x;
+			y = g->p.x;
 			break;
 		}
 		return (RAM(g)[xyaddr(x, y)] & xybit(y)) ? White : Black;
