@@ -112,7 +112,7 @@ ifdef VISUALIZER_ENABLE
 include $(VISUALIZER_DIR)/visualizer.mk
 endif
 
-OPT_DEFS += -DSERIAL_LINK_BAUD=1125000
+OPT_DEFS += -DSERIAL_LINK_BAUD=562500
 include $(SERIAL_DIR)/serial_link.mk
 
 include $(TMK_DIR)/tool/chibios/common.mk
