@@ -13,7 +13,11 @@ News and important information
 ------------------------------
 **Always read this section every time you pull a new version**
 
-**10.4.2016**
+**15-May-2015**
+
+* A [bug](https://github.com/fredizzimo/infinity_ergodox/issues/9) that corrupts the LCD and LCD backlight, after the keyboard has been on for a while has been fixed. It's strongly recommended to upgrade.
+
+**10-Apr-2016**
 
 * The location of most submodules have moved to my own forks. Therefore you need to run `git submodule sync --recursive` before doing `git submodule update --init --recursive`
 
