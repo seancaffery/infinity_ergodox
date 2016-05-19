@@ -30,6 +30,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static const char* welcome_text[] = {"TMK", "Infinity Ergodox"};
 
+// Example of how to render a bitmap image on the display
+// Ensure the image is 128 x 32 or smaller
+// Convert the bitmap to a C array using a program like http://www.riuson.com/lcd-image-converter/
+// Ensure the the conversion process produces an RGB888 format array - 24bits/pixel, left to right, top to bottom
+// Update logo[] with the C array produced by the conversion program
+// Update the image_width and image_height values below to match your image
 static const uint8_t display_width = 128;
 static const uint8_t image_height = 32;
 static const uint8_t image_width = 64;
