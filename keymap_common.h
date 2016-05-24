@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 extern const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS];
 extern const uint16_t fn_actions[];
 
+#define SHIFT(key) ACTION(ACT_MODS, (MOD_LSFT << 8) | (key))
 
 /* Infinity prototype */
 #define KEYMAP( \
